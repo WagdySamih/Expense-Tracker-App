@@ -18,7 +18,7 @@ type Form = {
 const ManageExpense: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { expenses, deleteExpense, updateExpense, addExpense } =
+  const { expenses, deleteExpense, updateExpense, addExpense, isLoading } =
     useContext(ExpensesContext);
 
   const [form, setForm] = useState<Form>();
@@ -54,7 +54,7 @@ const ManageExpense: React.FC = () => {
     return false;
   };
 
-  const onConfirm = () => {
+  const onConfirm = async () => {
     let isValid = true;
 
     if (form?.amount && +form.amount <= 0)
@@ -77,8 +77,8 @@ const ManageExpense: React.FC = () => {
       description: form?.description,
     } as Omit<Expense, "id">;
 
-    if (isEditMode) updateExpense({ id, ...payload });
-    else addExpense(payload);
+    if (isEditMode) await updateExpense({ id, ...payload });
+    else await addExpense(payload);
 
     navigation.goBack();
   };

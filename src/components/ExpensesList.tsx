@@ -32,7 +32,7 @@ export const ExpensesList: React.FC<Props> = ({ expenses }) => {
             <Text style={[styles.textBase, styles.description]}>
               {item.description}
             </Text>
-            <Text style={styles.textBase}>{item.date.toDateString()}</Text>
+            <Text style={styles.textBase}>{item?.date?.toDateString?.()}</Text>
           </View>
           <Text style={[styles.textBase, styles.amount]}>{item.amount}</Text>
         </Pressable>
