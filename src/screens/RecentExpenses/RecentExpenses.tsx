@@ -3,14 +3,17 @@ import { useContext } from "react";
 import { ExpensesList, ExpensesSummary } from "../../components";
 import { DUMMY_EXPENSES } from "../../data/mock";
 import { ExpensesContext } from "../../store/ExpensesContext";
+import { getDateMinusDays } from "../../utils";
 
 const RecentExpenses: React.FC = () => {
   const { expenses } = useContext(ExpensesContext);
+  const dateFrom7days = getDateMinusDays(new Date(), 7);
+  const recentExpenses = expenses.filter((ex) => ex.date > dateFrom7days);
 
   return (
     <View style={styles.container}>
-      <ExpensesSummary expenses={expenses} periodName="Last 7 days" />
-      <ExpensesList expenses={expenses} />
+      <ExpensesSummary expenses={recentExpenses} periodName="Last 7 days" />
+      <ExpensesList expenses={recentExpenses} />
     </View>
   );
 };
