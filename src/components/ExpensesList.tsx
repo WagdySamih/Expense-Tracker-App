@@ -22,7 +22,11 @@ export const ExpensesList: React.FC<Props> = ({ expenses }) => {
             styles.item,
             pressed ? styles.pressed : null,
           ]}
-          onPress={() => navigation.navigate("ManageExpense")}
+          onPress={() =>
+            navigation.navigate("ManageExpense", {
+              id: item.id,
+            })
+          }
         >
           <View>
             <Text style={[styles.textBase, styles.description]}>
