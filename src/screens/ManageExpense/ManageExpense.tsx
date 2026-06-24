@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
-import { useLayoutEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { useContext, useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Trash } from "lucide-react-native";
 
 import { Button, IconButton } from "../../components";
 import { GlobalStyles } from "../../constants";
+import { ExpensesContext } from "../../store/ExpensesContext";
 
 const ManageExpense: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const { expenses, deleteExpense } = useContext(ExpensesContext);
 
   const id = (route.params as any)?.id;
   const isEditMode = !!id;
@@ -40,6 +42,7 @@ const ManageExpense: React.FC = () => {
         <IconButton
           icon={<Trash color={GlobalStyles.colors.error500} />}
           onPress={() => {
+            deleteExpense(id);
             navigation.goBack();
           }}
           styles={styles.deleteBtn}
