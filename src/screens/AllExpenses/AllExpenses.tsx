@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native";
 import { useContext } from "react";
 
-import { ExpensesList, ExpensesSummary } from "../../components";
+import { ExpensesList, ExpensesSummary, NoExpenses } from "../../components";
 import { ExpensesContext } from "../../store/ExpensesContext";
+import { EqualApproximately, Text } from "lucide-react-native";
 
 const AllExpenses: React.FC = () => {
   const { expenses } = useContext(ExpensesContext);
@@ -10,7 +11,7 @@ const AllExpenses: React.FC = () => {
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} periodName="Total" />
-      <ExpensesList expenses={expenses} />
+      {expenses.length ? <ExpensesList expenses={expenses} /> : <NoExpenses />}
     </View>
   );
 };
@@ -22,5 +23,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 16,
+  },
+  noExpenses: {
+    textAlign: "center",
+    color: "white",
+    padding: 16,
+    margin: "auto",
   },
 });

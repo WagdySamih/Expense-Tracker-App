@@ -10,7 +10,8 @@ import { ExpensesContext } from "../../store/ExpensesContext";
 const ManageExpense: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { expenses, deleteExpense } = useContext(ExpensesContext);
+  const { expenses, deleteExpense, updateExpense, addExpense } =
+    useContext(ExpensesContext);
 
   const id = (route.params as any)?.id;
   const isEditMode = !!id;
@@ -21,22 +22,30 @@ const ManageExpense: React.FC = () => {
     });
   }, [navigation, isEditMode]);
 
+  const onConfirm = () => {
+    if (isEditMode)
+      updateExpense({
+        id,
+        amount: 10,
+        description: "New Expense",
+        date: new Date(),
+      });
+    else
+      addExpense({ amount: 10, description: "New Expense", date: new Date() });
+
+    navigation.goBack();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.btnsContainer}>
         <Button
           text="Cancel"
           variant="text"
-          onPress={() => {
-            navigation.goBack();
-          }}
+          onPress={() => navigation.goBack()}
+          style={styles.btn}
         />
-        <Button
-          text="Confirm"
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
+        <Button text="Confirm" onPress={onConfirm} style={styles.btn} />
       </View>
       {isEditMode && (
         <IconButton
@@ -62,6 +71,10 @@ const styles = StyleSheet.create({
   btnsContainer: {
     flexDirection: "row",
     gap: 16,
+    justifyContent: "center",
+  },
+  btn: {
+    flex: 1,
   },
   deleteBtn: {
     margin: 0,

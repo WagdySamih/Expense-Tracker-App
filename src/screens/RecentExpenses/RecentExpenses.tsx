@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
-import { ExpensesList, ExpensesSummary } from "../../components";
+import { ExpensesList, ExpensesSummary, NoExpenses } from "../../components";
 import { DUMMY_EXPENSES } from "../../data/mock";
 import { ExpensesContext } from "../../store/ExpensesContext";
 import { getDateMinusDays } from "../../utils";
@@ -13,7 +13,11 @@ const RecentExpenses: React.FC = () => {
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={recentExpenses} periodName="Last 7 days" />
-      <ExpensesList expenses={recentExpenses} />
+      {expenses.length ? (
+        <ExpensesList expenses={recentExpenses} />
+      ) : (
+        <NoExpenses message="You don't have any expenses recently" />
+      )}
     </View>
   );
 };
