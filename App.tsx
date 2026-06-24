@@ -20,6 +20,9 @@ const ExpensesOverview = () => (
       tabBarStyle: {
         backgroundColor: GlobalStyles.colors.primary500,
       },
+      sceneStyle: {
+        backgroundColor: GlobalStyles.colors.primary700,
+      },
       tabBarActiveTintColor: GlobalStyles.colors.accent500,
     }}
   >
@@ -49,9 +52,15 @@ const ExpensesOverview = () => (
 export default function App() {
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            contentStyle: {
+              backgroundColor: GlobalStyles.colors.primary700,
+            },
+          }}
+        >
           <Stack.Screen
             name="ExpensesOverview"
             component={ExpensesOverview}
