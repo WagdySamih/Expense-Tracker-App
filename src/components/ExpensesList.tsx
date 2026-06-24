@@ -1,4 +1,6 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import { Expense } from "../models";
 import { GlobalStyles } from "../constants";
 
@@ -7,13 +9,21 @@ type Props = {
 };
 
 export const ExpensesList: React.FC<Props> = ({ expenses }) => {
+  const navigation = useNavigation<any>();
+
   return (
     <FlatList
       data={expenses}
       keyExtractor={(item) => item.id}
       style={styles.container}
       renderItem={({ item }) => (
-        <Pressable style={styles.item}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.item,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={() => navigation.navigate("ManageExpense")}
+        >
           <View>
             <Text style={[styles.textBase, styles.description]}>
               {item.description}
@@ -31,6 +41,9 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 16,
     marginBottom: 0,
+  },
+  pressed: {
+    opacity: 0.75,
   },
   item: {
     padding: 16,
@@ -62,5 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: GlobalStyles.colors.primary500,
     fontWeight: "bold",
+    minWidth: 80,
+    textAlign: "center",
   },
 });

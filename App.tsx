@@ -5,14 +5,15 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AllExpenses, ManageExpense, RecentExpenses } from "./src/screens";
 import { GlobalStyles } from "./src/constants";
-import { Calendar, Hourglass } from "lucide-react-native";
+import { Calendar, Hourglass, Plus } from "lucide-react-native";
+import { IconButton } from "./src/components";
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 const ExpensesOverview = () => (
   <BottomTabs.Navigator
-    screenOptions={{
+    screenOptions={({ navigation }) => ({
       headerStyle: {
         backgroundColor: GlobalStyles.colors.primary500,
       },
@@ -24,7 +25,14 @@ const ExpensesOverview = () => (
         backgroundColor: GlobalStyles.colors.primary700,
       },
       tabBarActiveTintColor: GlobalStyles.colors.accent500,
-    }}
+      headerRight: ({ tintColor }) => (
+        <IconButton
+          icon={<Plus color={tintColor} size={24} />}
+          onPress={() => navigation.navigate("ManageExpense")}
+          styles={{ marginRight: 16 }}
+        />
+      ),
+    })}
   >
     <BottomTabs.Screen
       name="RecentExpenses"
@@ -59,6 +67,7 @@ export default function App() {
             contentStyle: {
               backgroundColor: GlobalStyles.colors.primary700,
             },
+            headerBackTitle: "Back",
           }}
         >
           <Stack.Screen
@@ -66,7 +75,11 @@ export default function App() {
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpense" component={ManageExpense} />
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpense}
+            options={{ presentation: "modal" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
