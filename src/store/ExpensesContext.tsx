@@ -26,7 +26,7 @@ const ExpensesContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const addExpense = (payload: Omit<Expense, "id">) => {
     setExpenses((prev) => [
       {
-        id: Math.random().toFixed(),
+        id: Math.random().toString(),
         ...payload,
       },
       ...prev,
