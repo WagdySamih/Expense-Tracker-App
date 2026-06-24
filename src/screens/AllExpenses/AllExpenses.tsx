@@ -3,15 +3,21 @@ import { useContext } from "react";
 
 import { ExpensesList, ExpensesSummary, NoExpenses } from "../../components";
 import { ExpensesContext } from "../../store/ExpensesContext";
-import { EqualApproximately, Text } from "lucide-react-native";
+import { LoadingOverlay } from "../../components/LoadingOverlay";
 
 const AllExpenses: React.FC = () => {
-  const { expenses } = useContext(ExpensesContext);
+  const { expenses, isLoading } = useContext(ExpensesContext);
 
   return (
     <View style={styles.container}>
       <ExpensesSummary expenses={expenses} periodName="Total" />
-      {expenses.length ? <ExpensesList expenses={expenses} /> : <NoExpenses />}
+      {isLoading ? (
+        <LoadingOverlay />
+      ) : expenses.length ? (
+        <ExpensesList expenses={expenses} />
+      ) : (
+        <NoExpenses />
+      )}
     </View>
   );
 };

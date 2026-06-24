@@ -1,16 +1,24 @@
-import { Pressable, StyleProp, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  View,
+} from "react-native";
 import { GlobalStyles } from "../constants";
 
 type Props = {
   onPress: () => void;
   icon: React.ReactNode;
   styles?: StyleProp<any>;
+  isLoading?: boolean;
 };
 
 export const IconButton: React.FC<Props> = ({
   onPress,
   icon,
   styles: optionalStyles = {},
+  isLoading,
 }) => (
   <Pressable
     onPress={onPress}
@@ -20,8 +28,9 @@ export const IconButton: React.FC<Props> = ({
       optionalStyles,
       pressed ? styles.pressed : null,
     ]}
+    disabled={isLoading}
   >
-    {icon}
+    {isLoading ? <ActivityIndicator size={"small"} color={"white"} /> : icon}
   </Pressable>
 );
 

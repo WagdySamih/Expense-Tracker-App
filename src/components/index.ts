@@ -4,3 +4,4 @@ export * from "./IconButton";
 export * from "./Button";
 export * from "./NoExpenses";
 export * from "./Input";
+export * from "./LoadingOverlay";

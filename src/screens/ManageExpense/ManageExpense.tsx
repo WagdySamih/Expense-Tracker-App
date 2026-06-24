@@ -126,7 +126,13 @@ const ManageExpense: React.FC = () => {
           onPress={() => navigation.goBack()}
           style={styles.btn}
         />
-        <Button text="Confirm" onPress={onConfirm} style={styles.btn} />
+        <Button
+          text="Confirm"
+          onPress={onConfirm}
+          style={styles.btn}
+          isLoading={isLoading}
+          disabled={isLoading}
+        />
       </View>
       {isEditMode && (
         <IconButton
@@ -135,6 +141,7 @@ const ManageExpense: React.FC = () => {
             deleteExpense(id);
             navigation.goBack();
           }}
+          isLoading={isLoading}
           styles={styles.deleteBtn}
         />
       )}

@@ -1,4 +1,10 @@
-import { Pressable, StyleProp, StyleSheet, Text } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+} from "react-native";
 import { GlobalStyles } from "../constants";
 
 type Props = {
@@ -6,6 +12,8 @@ type Props = {
   onPress: () => void;
   style?: StyleProp<any>;
   variant?: "primary" | "text";
+  isLoading?: boolean;
+  disabled?: boolean;
 };
 
 export const Button: React.FC<Props> = ({
@@ -13,6 +21,8 @@ export const Button: React.FC<Props> = ({
   onPress,
   style,
   variant = "primary",
+  isLoading = false,
+  disabled = false,
 }) => (
   <Pressable
     style={({ pressed }) => [
@@ -22,8 +32,10 @@ export const Button: React.FC<Props> = ({
       style,
     ]}
     onPress={onPress}
+    disabled={disabled}
   >
     <Text style={styles.text}>{text}</Text>
+    {isLoading && <ActivityIndicator size={"small"} color={"white"} />}
   </Pressable>
 );
 
@@ -33,6 +45,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 4,
     overflow: "hidden",
+    position: "relative",
+    flexDirection: "row",
+    gap: 10,
 
     backgroundColor: GlobalStyles.colors.primary500,
   },
