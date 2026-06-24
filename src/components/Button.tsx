@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
 
     backgroundColor: GlobalStyles.colors.primary500,
-    flex: 1,
   },
   pressed: {
     opacity: 0.75,
