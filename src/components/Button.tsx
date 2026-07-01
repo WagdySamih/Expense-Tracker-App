@@ -47,6 +47,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     position: "relative",
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 10,
 
     backgroundColor: GlobalStyles.colors.primary500,
