@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { useContext, useLayoutEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Trash } from "lucide-react-native";
@@ -8,6 +8,7 @@ import { GlobalStyles } from "../../constants";
 import { ExpensesContext } from "../../store/ExpensesContext";
 import { formatDate } from "../../utils";
 import { Expense } from "../../models";
+import { StatusBar } from "expo-status-bar";
 
 type Form = {
   description?: string;
@@ -84,68 +85,71 @@ const ManageExpense: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.form}>
-        <Text style={styles.title}>Your Expense</Text>
-        <View style={styles.rowInput}>
+    <>
+      {Platform.OS === "android" && <StatusBar style="dark" />}
+      <View style={styles.container}>
+        <View style={styles.form}>
+          <Text style={styles.title}>Your Expense</Text>
+          <View style={styles.rowInput}>
+            <Input
+              label="Amount"
+              keyboardType="decimal-pad"
+              autoCorrect={false}
+              style={styles.input}
+              value={form?.amount?.toString() || ""}
+              onChangeText={(text) => onFieldChange("amount", text)}
+              error={errors?.amount}
+            />
+            <Input
+              label="Date"
+              placeholder="YYYY-MM-DD"
+              maxLength={10}
+              autoCorrect={false}
+              style={styles.input}
+              value={form?.date?.toString() || ""}
+              onChangeText={(text) => onFieldChange("date", text)}
+              error={errors?.date}
+            />
+          </View>
           <Input
-            label="Amount"
-            keyboardType="decimal-pad"
+            label="Description"
+            numberOfLines={3}
             autoCorrect={false}
-            style={styles.input}
-            value={form?.amount?.toString() || ""}
-            onChangeText={(text) => onFieldChange("amount", text)}
-            error={errors?.amount}
-          />
-          <Input
-            label="Date"
-            placeholder="YYYY-MM-DD"
-            maxLength={10}
-            autoCorrect={false}
-            style={styles.input}
-            value={form?.date?.toString() || ""}
-            onChangeText={(text) => onFieldChange("date", text)}
-            error={errors?.date}
+            multiline
+            value={form?.description || ""}
+            onChangeText={(text) => onFieldChange("description", text)}
+            error={errors?.description}
           />
         </View>
-        <Input
-          label="Description"
-          numberOfLines={3}
-          autoCorrect={false}
-          multiline
-          value={form?.description || ""}
-          onChangeText={(text) => onFieldChange("description", text)}
-          error={errors?.description}
-        />
-      </View>
 
-      <View style={styles.btnsContainer}>
-        <Button
-          text="Cancel"
-          variant="text"
-          onPress={() => navigation.goBack()}
-          style={styles.btn}
-        />
-        <Button
-          text="Confirm"
-          onPress={onConfirm}
-          style={styles.btn}
-          isLoading={isLoading}
-          disabled={isLoading}
-        />
+        <View style={styles.btnsContainer}>
+          <Button
+            text="Cancel"
+            variant="text"
+            onPress={() => navigation.goBack()}
+            style={styles.btn}
+          />
+          <Button
+            text="Confirm"
+            onPress={onConfirm}
+            style={styles.btn}
+            isLoading={isLoading}
+            disabled={isLoading}
+          />
+        </View>
+        {isEditMode && (
+          <IconButton
+            icon={<Trash color={GlobalStyles.colors.error500} />}
+            onPress={() => {
+              deleteExpense(id);
+              navigation.goBack();
+            }}
+            isLoading={isLoading}
+            styles={styles.deleteBtn}
+          />
+        )}
       </View>
-      {isEditMode && (
-        <IconButton
-          icon={<Trash color={GlobalStyles.colors.error500} />}
-          onPress={() => {
-            deleteExpense(id);
-            navigation.goBack();
-          }}
-          isLoading={isLoading}
-          styles={styles.deleteBtn}
-        />
-      )}
-    </View>
+    </>
   );
 };
 
